@@ -51,7 +51,14 @@ class SignupScreen extends ConsumerWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      appBar: AppBar(title: const Text('Sign Up'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to Login screen
+            Navigator.pushReplacementNamed(context, Routes.login);
+          },
+        ),),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),

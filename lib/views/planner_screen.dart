@@ -27,19 +27,54 @@ class PlannerScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final p = PlannerItem(
-            id: DateTime.now().millisecondsSinceEpoch.toString(),
-            userId: 'demo',
-            title: 'New Plan',
-            description: 'Revise Mathematics',
-            date: DateTime.now().add(const Duration(days: 1)),
-            status: 'pending',
-            tasks: ['Chapter 1', 'Practice 10 questions'],
-          );
-          ref.read(plannerProvider.notifier).addPlanner(p);
+          _addDialog(context, ref);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+
+Future<void> _addDialog(BuildContext context, WidgetRef ref) async {
+  final titleCtrl = TextEditingController();
+  final descCtrl = TextEditingController();
+  final taskTitleCtrl = TextEditingController();
+  final taskDescCtrl = TextEditingController();
+  await showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: const Text('Add Plan'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
+          const SizedBox(height: 8),
+          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Description')),
+          const SizedBox(height: 8),
+          TextField(controller: taskTitleCtrl, decoration: const InputDecoration(labelText: 'Tasks Title')),
+          const SizedBox(height: 8),
+          TextField(controller: taskDescCtrl, decoration: const InputDecoration(labelText: 'Tasks Description')),
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        FilledButton(
+          onPressed: () async {
+            final p = PlannerItem(
+              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              userId: 'demo',
+              title: titleCtrl.text.trim(),
+              description: descCtrl.text.trim(),
+              date: DateTime.now().add(const Duration(days: 1)),
+              status: 'pending',
+              tasks: [taskTitleCtrl.text.trim(), taskDescCtrl.text.trim()],
+            );
+            ref.read(plannerProvider.notifier).addPlanner(p);
+            if (context.mounted) Navigator.pop(context);
+          },
+          child: const Text('Add'),
+        ),
+      ],
+    ),
+  );
 }

@@ -27,4 +27,8 @@ class AuthController {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  String? get currentUserEmail {
+    return _auth.currentUser?.email;
+  }
 }

@@ -79,15 +79,31 @@ class LoginScreen extends ConsumerWidget {
                       const SizedBox(height: 8),
 
                       // Register new account
-                      SizedBox(
+                      /*SizedBox(
                         width: double.infinity,
                         child: CustomButton(
                           label: 'Register',
-                          onPressed: () => ref
-                              .read(authControllerProvider)
-                              .registerWithEmail(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
+                          onPressed: () => {
+                            //ref.read(authControllerProvider).registerWithEmail(emailController.text.trim(), passwordController.text.trim(),),
+                            Future.microtask(() => Navigator.pushReplacementNamed(
+                                context, Routes.signUp))
+                          }),
+                      ),*/
+                      SizedBox(
+                        width: double.infinity,
+                        child: InkWell(
+                          onTap: () {
+                            Future.microtask(() =>
+                                Navigator.pushReplacementNamed(context, Routes.signUp));
+                          },
+                          child: const Text(
+                            "Don't have an account? Register here",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
                           ),
                         ),
                       ),

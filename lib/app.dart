@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learn_mate/views/signup_screen.dart';
 import 'core/routes.dart';
 import 'views/splash_screen.dart';
 import 'views/login_screen.dart';
@@ -33,6 +34,7 @@ class App extends StatelessWidget {
       routes: {
         Routes.splash: (_) => const SplashScreen(),
         Routes.login: (_) => const LoginScreen(),
+        Routes.signUp: (_) => const SignupScreen(),
         Routes.onboarding: (_) => const OnboardingScreen(),
         Routes.home: (_) => const HomeScreen(),
         Routes.planner: (_) => const PlannerScreen(),

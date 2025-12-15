@@ -27,18 +27,50 @@ class ForumScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final q = Question(
-            id: DateTime.now().millisecondsSinceEpoch.toString(),
-            userId: 'demo',
-            title: 'How to revise science effectively?',
-            content: 'Any tips for Grade 10 science exam?',
-            tags: ['Science', 'Grade10'],
-            createdAt: DateTime.now(),
-          );
-          ref.read(forumProvider.notifier).addQuestion(q);
+          _addDialog(context,ref);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+
+Future<void> _addDialog(BuildContext context, WidgetRef ref) async {
+  final titleCtrl = TextEditingController();
+  final descCtrl = TextEditingController();
+  final tagsCtrl = TextEditingController();
+  await showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: const Text('Add Community Q&A'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
+          const SizedBox(height: 8),
+          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Description')),
+          const SizedBox(height: 8),
+          TextField(controller: tagsCtrl, decoration: const InputDecoration(labelText: 'Tags')),
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        FilledButton(
+          onPressed: () async {
+            final q = Question(
+              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              userId: 'demo',
+              title: titleCtrl.text,
+              content: descCtrl.text,
+              tags: [tagsCtrl.text,],
+              createdAt: DateTime.now(),
+            );
+            ref.read(forumProvider.notifier).addQuestion(q);
+            if (context.mounted) Navigator.pop(context);
+          },
+          child: const Text('Add'),
+        ),
+      ],
+    ),
+  );
 }

@@ -23,27 +23,61 @@ class PlannerNotifier extends StateNotifier<List<PlannerItem>> {
     }
 
     // Fetch online and cache
-    final snap = await _firestore.collection('study_planner').orderBy('date').get();
-    final items = snap.docs.map((d) => PlannerItem.fromMap({'id': d.id, ...d.data()})).toList();
-    state = items;
-    _plannerBox.put('items', items.map((e) => e.toMap()).toList());
+    try {
+      final snap = await _firestore.collection('study_planner').orderBy('date').get();
+      final items = snap.docs.map((d) => PlannerItem.fromMap({'id': d.id, ...d.data()})).toList();
+      state = items;
+      _plannerBox.put('items', items.map((e) => e.toMap()).toList());
+    } on FirebaseException catch (e) {
+      // Catch Firebase-specific errors
+      throw Exception(e);
+    } catch (e) {
+      // Catch any other errors
+      throw Exception('Login failed. Please try again.');
+    }
   }
 
   Future<void> addPlanner(PlannerItem item) async {
-    state = [...state, item];
-    await _firestore.collection('study_planner').doc(item.id).set(item.toMap());
-    await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    try {
+      state = [...state, item];
+      await _firestore.collection('study_planner').doc(item.id).set(
+          item.toMap());
+      await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    } on FirebaseException catch (e) {
+      // Catch Firebase-specific errors
+      throw Exception(e);
+    } catch (e) {
+      // Catch any other errors
+      throw Exception('Login failed. Please try again.');
+    }
   }
 
   Future<void> updatePlanner(PlannerItem item) async {
-    state = state.map((p) => p.id == item.id ? item : p).toList();
-    await _firestore.collection('study_planner').doc(item.id).update(item.toMap());
-    await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    try {
+      state = state.map((p) => p.id == item.id ? item : p).toList();
+      await _firestore.collection('study_planner').doc(item.id).update(
+          item.toMap());
+      await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    } on FirebaseException catch (e) {
+      // Catch Firebase-specific errors
+      throw Exception(e);
+    } catch (e) {
+      // Catch any other errors
+      throw Exception('Login failed. Please try again.');
+    }
   }
 
   Future<void> deletePlanner(String id) async {
-    state = state.where((p) => p.id != id).toList();
-    await _firestore.collection('study_planner').doc(id).delete();
-    await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    try {
+      state = state.where((p) => p.id != id).toList();
+      await _firestore.collection('study_planner').doc(id).delete();
+      await _plannerBox.put('items', state.map((e) => e.toMap()).toList());
+    } on FirebaseException catch (e) {
+      // Catch Firebase-specific errors
+      throw Exception(e);
+    } catch (e) {
+      // Catch any other errors
+      throw Exception('Login failed. Please try again.');
+    }
   }
 }

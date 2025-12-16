@@ -17,6 +17,7 @@ class HomeScreen extends StatelessWidget {
       _HomeTile('Progress', Icons.insights, Routes.progress),
       _HomeTile('Settings', Icons.settings, Routes.settings),
       _HomeTile('AI Assistant', Icons.psychology, Routes.aiAssistant),
+      _HomeTile('Flashcards', Icons.style, Routes.flashcards),
     ];
 
     return Scaffold(

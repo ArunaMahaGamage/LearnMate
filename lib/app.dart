@@ -22,6 +22,7 @@ import 'views/profile_screen.dart';
 import 'views/progress_tracker_screen.dart';
 import 'views/settings_screen.dart';
 import 'views/ai_assistant_screen.dart';
+import 'views/flashcard_screen.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -69,6 +70,7 @@ class App extends ConsumerWidget {
         Routes.progress: (_) => const ProgressTrackerScreen(),
         Routes.settings: (_) => const SettingsScreen(),
         Routes.aiAssistant: (context) => const AIAssistantScreen(),
+        Routes.flashcards: (context) => const FlashcardScreen(),
       },
     );
   }

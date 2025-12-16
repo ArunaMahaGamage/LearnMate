@@ -21,6 +21,7 @@ import 'views/notifications_screen.dart';
 import 'views/profile_screen.dart';
 import 'views/progress_tracker_screen.dart';
 import 'views/settings_screen.dart';
+import 'views/ai_assistant_screen.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -42,7 +43,6 @@ class App extends ConsumerWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      // CRITICAL: Set the themeMode based on the provider state
       themeMode: switch (settings.themeMode) {
         AppThemeMode.light => ThemeMode.light,
         AppThemeMode.dark => ThemeMode.dark,
@@ -68,6 +68,7 @@ class App extends ConsumerWidget {
         Routes.profile: (_) => const ProfileScreen(),
         Routes.progress: (_) => const ProgressTrackerScreen(),
         Routes.settings: (_) => const SettingsScreen(),
+        Routes.aiAssistant: (context) => const AIAssistantScreen(),
       },
     );
   }

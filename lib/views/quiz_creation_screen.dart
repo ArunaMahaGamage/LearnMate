@@ -214,7 +214,7 @@ class _QuizCreationScreenState extends ConsumerState<QuizCreationScreen> {
                 onUpdate: notifier.updateQuestion,
                 onDelete: notifier.deleteQuestion,
               );
-            }).toList(),
+            }),
 
             const SizedBox(height: 20),
             SizedBox(
@@ -368,7 +368,7 @@ class _QuestionFormCardState extends ConsumerState<_QuestionFormCard> {
                   ),
                 ],
               );
-            }).toList(),
+            }),
           ],
         ),
       ),

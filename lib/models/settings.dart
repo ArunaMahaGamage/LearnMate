@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum AppThemeMode { light, dark, system }
 
 class Settings {

@@ -19,4 +19,5 @@ class Routes {
   static const progress = '/progress';
   static const settings = '/settings';
   static const aiAssistant = '/ai_assistant';
+  static const flashcards = '/flashcards';
 }

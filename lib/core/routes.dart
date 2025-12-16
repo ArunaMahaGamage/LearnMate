@@ -6,6 +6,7 @@ class Routes {
   static const home = '/home';
   static const planner = '/planner';
   static const plannerDetail = '/planner_detail';
+  static const subject = '/subject';
   static const resources = '/resources';
   static const resourceDetail = '/resource_detail';
   static const forum = '/forum';

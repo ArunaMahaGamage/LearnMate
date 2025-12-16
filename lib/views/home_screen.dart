@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final tiles = [
       _HomeTile('Planner', Icons.event_note, Routes.planner),
-      _HomeTile('Resources', Icons.menu_book, Routes.resources),
+      _HomeTile('Resources', Icons.menu_book, Routes.subject),
       _HomeTile('Forum', Icons.forum, Routes.forum),
       _HomeTile('Quiz', Icons.quiz, Routes.quiz),
       _HomeTile('Favorites', Icons.favorite, Routes.favorites),

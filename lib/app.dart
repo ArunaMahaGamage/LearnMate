@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_mate/views/signup_screen.dart';
+import 'package:learn_mate/views/subject_screen.dart';
 import 'core/routes.dart';
 import 'views/splash_screen.dart';
 import 'views/login_screen.dart';
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
         Routes.planner: (_) => const PlannerScreen(),
         Routes.plannerDetail: (_) => const PlannerDetailScreen(),
         Routes.resources: (_) => const ResourceLibraryScreen(),
+        Routes.subject: (_) => const SubjectsScreen(),
         Routes.resourceDetail: (_) => const ResourceDetailScreen(),
         Routes.forum: (_) => const ForumScreen(),
         Routes.questionDetail: (_) => const QuestionDetailScreen(),

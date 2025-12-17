@@ -15,6 +15,8 @@ class ResourceLibraryScreen extends ConsumerWidget {
 
     final String subject = ModalRoute.of(context)!.settings.arguments as String;
 
+    ref.read(resourcesProvider.notifier).loadSubject(subject);
+
     return Scaffold(
       appBar: AppBar(title: Text('$subject')),
       body: ListView.builder(

@@ -37,6 +37,7 @@ class ResourcesNotifier extends StateNotifier<List<Lesson>> {
       if (cached is List) {
         state = cached
             .map((e) => Lesson.fromMap(Map<String, dynamic>.from(e)))
+            .where((lesson) => lesson.subject == subject)
             .toList();
       }
 

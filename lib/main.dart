@@ -8,6 +8,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initFirebase();
   await initHive();
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const ProviderScope(child: App()));
 }

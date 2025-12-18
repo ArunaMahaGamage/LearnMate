@@ -40,7 +40,11 @@ class ResourcesNotifier extends StateNotifier<List<Lesson>> {
             .where((lesson) => lesson.subject == subject)
             .toList();
       }
+    } catch(e) {
+      print(e);
+    }
 
+    try {
       // Online sync
       final snap = await _firestore
           .collection('resources')

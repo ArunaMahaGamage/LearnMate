@@ -18,12 +18,10 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         children: [
           // --- 1. General Preferences ---
-          _SettingsSectionTitle(title: 'General Preferences'),
+          const _SettingsSectionTitle(title: 'General Preferences'),
 
-          // Theme Mode Selector
           _ThemeModeSettingTile(settings: settings, notifier: notifier),
 
-          // Language Selector (uses updated _showLanguagePicker below)
           ListTile(
             title: const Text('Language'),
             subtitle: Text(settings.preferredLanguage),
@@ -42,7 +40,8 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(height: 30),
 
           // --- 2. About ---
-          _SettingsSectionTitle(title: 'About'),
+          const _SettingsSectionTitle(title: 'About'),
+
           ListTile(
             title: const Text('Version'),
             trailing: Text(
@@ -50,11 +49,20 @@ class SettingsScreen extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
+
+          const Divider(height: 30),
+
+          // --- 3. Account ---
+          const _SettingsSectionTitle(title: 'Account'),
+
           ListTile(
-            title: const Text('Terms of Service'),
-            trailing: const Icon(Icons.link),
+            title: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.red),
+            ),
+            leading: const Icon(Icons.logout, color: Colors.red),
             onTap: () {
-              /* Navigate to Terms screen */
+              _showLogoutDialog(context);
             },
           ),
         ],
@@ -63,7 +71,7 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-// --- Helper Widgets ---
+// ---------------- HELPER WIDGETS ----------------
 
 class _SettingsSectionTitle extends StatelessWidget {
   final String title;
@@ -89,7 +97,10 @@ class _ThemeModeSettingTile extends StatelessWidget {
   final Settings settings;
   final SettingsNotifier notifier;
 
-  const _ThemeModeSettingTile({required this.settings, required this.notifier});
+  const _ThemeModeSettingTile({
+    required this.settings,
+    required this.notifier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +122,7 @@ class _ThemeModeSettingTile extends StatelessWidget {
                   title: Text(mode.toString().split('.').last),
                   value: mode,
                   groupValue: settings.themeMode,
-                  onChanged: (AppThemeMode? newMode) {
+                  onChanged: (newMode) {
                     if (newMode != null) {
                       notifier.setThemeMode(newMode);
                       Navigator.pop(ctx);
@@ -127,34 +138,61 @@ class _ThemeModeSettingTile extends StatelessWidget {
   }
 }
 
-// CRITICAL UPDATE: Language list restricted to English, Tamil, and Sinhala.
+// ---------------- LANGUAGE PICKER ----------------
+
 Future<String?> _showLanguagePicker(
   BuildContext context,
   String current,
 ) async {
-  // Only the three requested languages are included here
   const languages = ['English', 'Tamil', 'Sinhala'];
+
   return await showDialog<String>(
     context: context,
     builder: (ctx) => AlertDialog(
       title: const Text('Select Language'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: languages.map((lang) {
-            return RadioListTile<String>(
-              title: Text(lang),
-              value: lang,
-              groupValue: current,
-              onChanged: (String? newLang) {
-                if (newLang != null) {
-                  Navigator.pop(ctx, newLang);
-                }
-              },
-            );
-          }).toList(),
-        ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: languages.map((lang) {
+          return RadioListTile<String>(
+            title: Text(lang),
+            value: lang,
+            groupValue: current,
+            onChanged: (newLang) {
+              if (newLang != null) {
+                Navigator.pop(ctx, newLang);
+              }
+            },
+          );
+        }).toList(),
       ),
+    ),
+  );
+}
+
+// ---------------- LOGOUT DIALOG ----------------
+
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Logout'),
+      content: const Text('Are you sure you want to logout?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(ctx);
+            debugPrint('User logged out');
+          },
+          child: const Text(
+            'Logout',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
     ),
   );
 }

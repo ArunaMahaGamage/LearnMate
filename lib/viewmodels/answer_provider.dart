@@ -1,50 +1,46 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Question {
+class Answers {
   final String id;
-  final String userId;
   final String title;
   final String content;
-  final List<String> tags;
+  final List<String> answers;
   final DateTime createdAt;
 
-  Question({
+  Answers({
     required this.id,
-    required this.userId,
     required this.title,
     required this.content,
-    required this.tags,
+    required this.answers,
     required this.createdAt,
   });
 
   Map<String, dynamic> toMap() => {
     'id': id,
-    'userId': userId,
     'title': title,
     'content': content,
-    'tags': tags,
+    'answers': answers,
     'createdAt': createdAt.toIso8601String(),
   };
 
-  static Question fromMap(Map<String, dynamic> json) => Question(
+  static Answers fromMap(Map<String, dynamic> json) => Answers(
     id: json['id'],
-    userId: json['userId'],
     title: json['title'],
     content: json['content'],
-    tags: (json['tags'] as List).map((e) => e.toString()).toList(),
+    answers: (json['answers'] as List).map((e) => e.toString()).toList(),
     createdAt: DateTime.parse(json['createdAt']),
   );
 }
 
-final forumProvider = StateNotifierProvider<ForumNotifier, List<Question>>((
-  ref,
-) {
-  return ForumNotifier();
+final answerProvider = StateNotifierProvider<AnswerNotifier, List<Answers>>((
+    ref,
+    ) {
+  return AnswerNotifier();
 });
 
-class ForumNotifier extends StateNotifier<List<Question>> {
-  ForumNotifier() : super([]) {
+class AnswerNotifier extends StateNotifier<List<Answers>> {
+  AnswerNotifier() : super([]) {
     load();
   }
 
@@ -52,15 +48,14 @@ class ForumNotifier extends StateNotifier<List<Question>> {
 
   Future<void> load() async {
     final snap = await _firestore
-        .collection('forum')
-        .orderBy('createdAt', descending: true)
+        .collection('answers')
         .get();
     state = snap.docs
-        .map((d) => Question.fromMap({'id': d.id, ...d.data()}))
+        .map((d) => Answers.fromMap({'id': d.id, ...d.data()}))
         .toList();
   }
 
-  Future<void> addQuestion(Question q) async {
+  Future<void> addQuestion(Answers q) async {
     state = [q, ...state];
     await _firestore.collection('forum').doc(q.id).set(q.toMap());
   }

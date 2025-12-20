@@ -66,10 +66,9 @@ class ForumNotifier extends StateNotifier<List<Question>> {
   }
 
   Future<void> addAnswer(String questionId, Map<String, dynamic> answer) async {
-    await _firestore
-        .collection('forum')
-        .doc(questionId)
-        .collection('answers')
-        .add(answer);
+    Map<String, dynamic> allAnswer = {};
+    allAnswer[DateTime.now().millisecondsSinceEpoch.toString()] = answer;
+    await _firestore.collection('answers').doc(questionId).set(allAnswer);
+
   }
 }

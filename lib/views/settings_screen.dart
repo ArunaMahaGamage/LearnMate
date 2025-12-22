@@ -133,3 +133,31 @@ Future<String?> _showLanguagePicker(
     ),
   );
 }
+
+// ---------------- LOGOUT DIALOG ----------------
+
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Logout'),
+      content: const Text('Are you sure you want to logout?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(ctx);
+            debugPrint('User logged out');
+          },
+          child: const Text(
+            'Logout',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
+    ),
+  );
+}
